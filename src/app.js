@@ -1,6 +1,8 @@
+/* jshint esversion: 9 */
+
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './app.css';
 
 function App() {
   return (
