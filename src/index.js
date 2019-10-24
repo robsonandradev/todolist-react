@@ -24,6 +24,17 @@ class TodoList extends React.Component {
       });
   }
 
+  onCheckboxChange( id, done ) {
+    let url = this.state.todoListApiHost;
+    if( done ) {
+      url += "/done/";
+    } else {
+      url += "/undone/";
+    }
+    url += id;
+    axios.get( url );
+  }
+
   render() {
     this.getTodoItems();
     return (
@@ -33,7 +44,15 @@ class TodoList extends React.Component {
           <ul>
             {this.state.todoItems.map( item => 
               <li key={item._id}>
-                <input type="checkbox" value={item.done} /> {item.name}
+                <input
+                  type="checkbox"
+                  id={item._id}
+                  checked={ item.done ? "checked" : "" }
+                  onChange={() => this.onCheckboxChange( item._id, !item.done )}
+                />
+                <label onClick={() => this.onCheckboxChange( item._id, !item.done )} >
+                  {item.name
+                }</label>
               </li>
             )}
           </ul>
