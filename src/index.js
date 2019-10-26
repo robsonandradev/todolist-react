@@ -36,9 +36,10 @@ class TodoList extends React.Component {
       todoListApiHost: "http://localhost:8080",
       todoItems: []
     };
+    this.getTodoItems();
   }
 
-  componentDidMount() {
+  getTodoItems() {
     axios.get( `${this.state.todoListApiHost}/list` )
       .then( res => {
         const items = res.data;
@@ -56,7 +57,10 @@ class TodoList extends React.Component {
       url += "/undone/";
     }
     url += id;
-    axios.get( url );
+    axios.get( url )
+      .then( res => { 
+        this.getTodoItems();
+      });
   }
 
   render() {
@@ -67,7 +71,7 @@ class TodoList extends React.Component {
           <h1> This is React and bootstrap working together </h1>
           <TodoItems
             todoItems={currentItems}
-            onCheckboxChange={this.onCheckboxChange}
+            onCheckboxChange={( id, done, todoListApiHost ) => this.onCheckboxChange(id, done, todoListApiHost)}
             todoListApiHost={this.state.todoListApiHost}
           />
         </div>
