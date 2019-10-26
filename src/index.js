@@ -5,6 +5,30 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import './index.css';
 
+class TodoItems extends React.Component {
+  render() {
+    return (
+      <ul>
+        {this.props.todoItems.map( item => 
+          <li key={item._id}>
+            <input
+              type="checkbox"
+              id={item._id}
+              checked={ item.done ? "checked" : "" }
+              onChange={() => this.props.onCheckboxChange( item._id, !item.done, this.props.todoListApiHost )}
+            />
+            <label
+              onClick={() => this.props.onCheckboxChange( item._id, !item.done, this.props.todoListApiHost )}
+            >
+              {item.name}
+            </label>
+          </li>
+        )}
+      </ul>
+    );
+  }
+}
+
 class TodoList extends React.Component {
   constructor( props ) {
     super( props );
@@ -13,8 +37,8 @@ class TodoList extends React.Component {
       todoItems: []
     };
   }
-  
-  getTodoItems() {
+
+  componentDidMount() {
     axios.get( `${this.state.todoListApiHost}/list` )
       .then( res => {
         const items = res.data;
@@ -24,8 +48,8 @@ class TodoList extends React.Component {
       });
   }
 
-  onCheckboxChange( id, done ) {
-    let url = this.state.todoListApiHost;
+  onCheckboxChange( id, done, todoListApiHost ) {
+    let url = todoListApiHost;
     if( done ) {
       url += "/done/";
     } else {
@@ -36,26 +60,16 @@ class TodoList extends React.Component {
   }
 
   render() {
-    this.getTodoItems();
+    const currentItems = this.state.todoItems;
     return (
       <main role="main" className="container">
         <div className="starter-template">
           <h1> This is React and bootstrap working together </h1>
-          <ul>
-            {this.state.todoItems.map( item => 
-              <li key={item._id}>
-                <input
-                  type="checkbox"
-                  id={item._id}
-                  checked={ item.done ? "checked" : "" }
-                  onChange={() => this.onCheckboxChange( item._id, !item.done )}
-                />
-                <label onClick={() => this.onCheckboxChange( item._id, !item.done )} >
-                  {item.name
-                }</label>
-              </li>
-            )}
-          </ul>
+          <TodoItems
+            todoItems={currentItems}
+            onCheckboxChange={this.onCheckboxChange}
+            todoListApiHost={this.state.todoListApiHost}
+          />
         </div>
       </main>
     );
