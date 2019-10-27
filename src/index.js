@@ -61,6 +61,7 @@ class TodoList extends React.Component {
   }
 
   async onCheckboxChange( id, done, todoListApiHost ) {
+    const items = this.state.todoItems.slice();
     let url = todoListApiHost;
     if( done ) {
       url += "/done/";
@@ -68,21 +69,51 @@ class TodoList extends React.Component {
       url += "/undone/";
     }
     url += id;
-    await axios.get( url );
-    this.getTodoItems();
+    let changedItem = await axios.get( url );
+    changedItem = changedItem.data;
+    items.map( item => {
+      if( item._id === changedItem._id ) {
+        item.done = changedItem.done;
+      }
+      return item;
+    });
+    this.setState({
+      todoItems: items
+    });
   }
 
   async addItem( itemText ) {
+    const items = this.state.todoItems.slice();
+    const now = Date.now();
     await axios.post( `${this.state.todoListApiHost}/add`, {
       name: itemText,
-      done: false
+      done: false,
+      now: now
     });
-    this.getTodoItems();
+
+    const added = await axios.get( `${this.state.todoListApiHost}/find/${itemText}/${now}` );
+    console.log( added );
+    const found = items.find( item => {
+      return (
+        item._id === added.data._id
+      );
+    });
+    if( !found ){
+      this.setState({
+        todoItems: items.concat( added.data )
+      });
+    }
   }
 
   async removeItem( id ) {
+    const todoItems = this.state.todoItems.slice();
     await axios.get( `${this.state.todoListApiHost}/remove/${id}` );
-    this.getTodoItems();
+    const tlFiltered = todoItems.filter( item => {
+      return  item._id !== id;
+    });
+    this.setState({
+      todoItems: tlFiltered
+    });
   }
 
   render() {
