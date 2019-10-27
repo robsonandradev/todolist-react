@@ -3,13 +3,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import './index.css';
+// import './index.css';
 
 const AddItem = ( props ) => {
   return (
     <div>
       <input type="text" id="newItem" />
-      <button onClick={ () => props.onClick( document.getElementById( "newItem" ).value ) }> Add </button>
+      <button 
+        onClick={ () => props.onClick( document.getElementById( "newItem" ).value ) }>
+        Add
+      </button>
     </div>
   );
 };
@@ -30,6 +33,9 @@ const TodoItems = ( props ) => {
           >
             {item.name}
           </label>
+          <button onClick={ () => props.removeClick( item._id )}>
+            Remove
+          </button>
         </li>
       )}
     </ul>
@@ -74,6 +80,11 @@ class TodoList extends React.Component {
     this.getTodoItems();
   }
 
+  async removeItem( id ) {
+    await axios.get( `${this.state.todoListApiHost}/remove/${id}` );
+    this.getTodoItems();
+  }
+
   render() {
     const currentItems = this.state.todoItems.slice();
     return (
@@ -87,6 +98,7 @@ class TodoList extends React.Component {
             todoItems={currentItems}
             onCheckboxChange={( id, done, todoListApiHost ) => this.onCheckboxChange(id, done, todoListApiHost)}
             todoListApiHost={this.state.todoListApiHost}
+            removeClick={( id ) => this.removeItem( id )}
           />
         </div>
       </main>
