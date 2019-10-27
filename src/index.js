@@ -5,6 +5,15 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import './index.css';
 
+const AddItem = ( props ) => {
+  return (
+    <div>
+      <input type="text" id="newItem" />
+      <button onClick={ () => props.onClick( document.getElementById( "newItem" ).value ) }> Add </button>
+    </div>
+  );
+};
+
 const TodoItems = ( props ) => {
   return (
     <ul>
@@ -25,7 +34,7 @@ const TodoItems = ( props ) => {
       )}
     </ul>
   );
-}
+};
 
 class TodoList extends React.Component {
   constructor( props ) {
@@ -37,17 +46,15 @@ class TodoList extends React.Component {
     this.getTodoItems();
   }
 
-  getTodoItems() {
-    axios.get( `${this.state.todoListApiHost}/list` )
-      .then( res => {
-        const items = res.data;
-        this.setState({
-          todoItems: items
-        });
-      });
+  async getTodoItems() {
+    const res = await axios.get( `${this.state.todoListApiHost}/list` );
+    const items = res.data;
+    this.setState({
+      todoItems: items
+    });
   }
 
-  onCheckboxChange( id, done, todoListApiHost ) {
+  async onCheckboxChange( id, done, todoListApiHost ) {
     let url = todoListApiHost;
     if( done ) {
       url += "/done/";
@@ -55,10 +62,16 @@ class TodoList extends React.Component {
       url += "/undone/";
     }
     url += id;
-    axios.get( url )
-      .then( res => { 
-        this.getTodoItems();
-      });
+    await axios.get( url );
+    this.getTodoItems();
+  }
+
+  async addItem( itemText ) {
+    await axios.post( `${this.state.todoListApiHost}/add`, {
+      name: itemText,
+      done: false
+    });
+    this.getTodoItems();
   }
 
   render() {
@@ -67,6 +80,9 @@ class TodoList extends React.Component {
       <main role="main" className="container">
         <div className="starter-template">
           <h1> This is React and bootstrap working together </h1>
+          <AddItem
+            onClick={( itemText ) => this.addItem( itemText )}
+          />
           <TodoItems
             todoItems={currentItems}
             onCheckboxChange={( id, done, todoListApiHost ) => this.onCheckboxChange(id, done, todoListApiHost)}
