@@ -38,7 +38,7 @@ const TodoItems = ( props ) => {
             checked={ item.done ? "checked" : "" }
             onChange={() => props.onCheckboxChange( item._id, !item.done, props.todoListApiHost )}
           />
-          <label
+          <label htmlFor={item._id}
             onClick={() => props.onCheckboxChange( item._id, !item.done, props.todoListApiHost )}
           >
             {item.name}
