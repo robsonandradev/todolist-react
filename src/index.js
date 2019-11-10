@@ -6,11 +6,21 @@ import axios from 'axios';
 // import './index.css';
 
 const AddItem = ( props ) => {
+  const newItemRef = React.createRef(null);
   return (
     <div>
-      <input type="text" id="newItem" />
+      <input
+        type="text"
+        id="newItem"
+        ref={ newItemRef }
+        onKeyDown={( event ) => {
+          if( event.keyCode === 13 ){
+            props.onClick( newItemRef.current.value ) 
+          }
+        }}
+      />
       <button 
-        onClick={ () => props.onClick( document.getElementById( "newItem" ).value ) }>
+        onClick={ () => props.onClick( newItemRef.current.value ) }>
         Add
       </button>
     </div>
@@ -92,7 +102,6 @@ class TodoList extends React.Component {
     });
 
     const added = await axios.get( `${this.state.todoListApiHost}/find/${itemText}/${now}` );
-    console.log( added );
     const found = items.find( item => {
       return (
         item._id === added.data._id
