@@ -18,9 +18,16 @@ const TodoItems = ( props ) => {
           >
             {item.name}
           </label>
-          <button onClick={ () => props.removeClick( item._id )}>
-            Remove
-          </button>
+          <i className="material-icons button edit"  title="Edit item"
+            onClick={ () => props.editClick( item._id )}
+          >
+            edit
+          </i>
+          <i className="material-icons button delete" title="Remove item"
+            onClick={ () => props.removeClick( item._id )}
+          >
+            delete
+          </i>
         </li>
       )}
     </ul>

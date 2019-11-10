@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import AddItem from './addItem';
 import TodoItems from './todoItems' ;
 import TodoListEvents from './todolistEvents';
+import './index.css';
 
 class TodoList extends React.Component {
   constructor( props ) {
