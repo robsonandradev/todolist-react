@@ -12,3 +12,23 @@
 .delete:hover {
   color: #dc2a2a;
 }
+
+.sideBySide {
+  display: block;
+  margin-left: 47px;
+  margin-right: 13px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  float: left;
+}
+
+.container-fluid {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 500px;
+}
+.floatNone {
+  display: inline-block;
+  float: none;
+  max-width: 480px;
+}

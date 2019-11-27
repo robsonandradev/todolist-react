@@ -3,8 +3,7 @@ import React from 'react';
 const AddItem = ( props ) => {
   const newItemRef = React.createRef(null);
   return (
-    <div>
-
+    <div className="sideBySide">
       <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
         Add Item
       </button>

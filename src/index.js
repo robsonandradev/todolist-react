@@ -19,9 +19,9 @@ class TodoList extends React.Component {
     const currentItems = this.state.todoItems.slice();
     const todolistEvents = new TodoListEvents( this );
     return (
-      <main role="main" className="container">
+      <main role="main" className="container-fluid">
         <div className="starter-template">
-          <h1> This is React and bootstrap working together </h1>
+          <h3 className="sideBySide">TodoList</h3>
           <AddItem
             onClick={( itemText ) => todolistEvents.addItem( itemText )}
           />
