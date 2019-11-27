@@ -1,5 +1,3 @@
-/* jshint esversion: 9 */
-
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AddItem from './addItem';

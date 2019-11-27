@@ -1,4 +1,3 @@
-/* jshint esversion: 9 */
 import axios from 'axios';
 
 class TodoListEvents {
