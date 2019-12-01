@@ -68,6 +68,19 @@ class TodoListEvents {
       todoItems: tlFiltered
     });
   }
+
+  async editItem( id, text ) {
+    const todoItems = this.state.todoItems.filter( item => {
+      return item._id !== id;
+    });
+    const item = await axios.get( `${this.state.todoListApiHost}/add`, {
+      _id: id,
+      name: text
+    });
+    this.todolist.setState({
+      todoItems: todoItems.concat( item )
+    });
+  }
 }
 
 export default TodoListEvents;

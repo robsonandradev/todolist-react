@@ -30,6 +30,7 @@ class TodoList extends React.Component {
             onCheckboxChange={( id, done, todoListApiHost ) => todolistEvents.onCheckboxChange(id, done, todoListApiHost)}
             todoListApiHost={this.state.todoListApiHost}
             removeClick={( id ) => todolistEvents.removeItem( id )}
+            editClick={( id, text ) => todolistEvents.editItem( id, text )}
           />
         </div>
       </main>

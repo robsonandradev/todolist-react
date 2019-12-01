@@ -23,7 +23,7 @@ const TodoItems = ( props ) => {
             </div>
             <div className="col-4">
               <i className="material-icons button edit"  title="Edit item"
-                onClick={ () => props.editClick( item._id )}
+                onClick={ () => props.editClick( item._id, item.name )}
               >
                 edit
               </i>
