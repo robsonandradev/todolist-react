@@ -32,3 +32,13 @@
   float: none;
   max-width: 480px;
 }
+
+#btnNewItem {
+  border-radius: 50%;
+  background-color: #fb6c6d;
+  border-color: #fb6c6d;
+}
+
+#btnNewItem:focus {
+  box-shadow: 0 0 0 0 #808080;
+}
